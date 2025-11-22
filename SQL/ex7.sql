@@ -1,3 +1,5 @@
+
+-- Shows each customer's order history with aggregated spending and loyalty info
 CREATE VIEW CustomerOrderSummary AS
 SELECT 
     c.email,
@@ -15,7 +17,7 @@ LEFT JOIN `Order` AS o ON c.email = o.customer_email
 GROUP BY c.email, p.first_name, p.last_name, c.loyalty_tier;
 
 
-
+-- Shows real-time inventory of seats for each event with sales data
 CREATE VIEW EventSeatStatus AS
 SELECT 
     e.name AS event_name,
