@@ -31,3 +31,20 @@ JOIN Ticket AS t
 SET es.availability_status = 'SOLD'
 WHERE es.availability_status <> 'SOLD';
 
+
+
+-- delete tickets for This deletes issued tickets for events that have already passed. But it only deletes tickets where the customer never actually checked in.
+DELETE t FROM Ticket AS t
+WHERE t.event_name IN (
+  SELECT e.name 
+  FROM Event AS e
+  WHERE e.date < NOW()
+    AND e.status = 'SCHEDULED'
+)
+  AND t.status = 'ISSUED'
+  AND t.order_num NOT IN (
+    SELECT DISTINCT order_num FROM CheckIn
+  );
+
+
+
